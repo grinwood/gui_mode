@@ -4,6 +4,8 @@ import java.util.Arrays;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,6 +26,7 @@ public class GUI extends javax.swing.JFrame {
     private database db;
     public GUI() {
         initComponents();
+        komp = new Kompetisi();
     }
     private void fillListKompetisi(){
         DefaultListModel m = new DefaultListModel();
@@ -34,6 +37,7 @@ public class GUI extends javax.swing.JFrame {
         for (int i = 0; i < dataTuple.length;i++){
             data[i] = dataTuple[i].split(" ; ");
             view = Arrays.toString(data[i]);
+            view = view.replaceAll("[^A-Za-z]+", "");
             m.addElement(view);
         }
         listKompetisi.setModel(m);
@@ -51,8 +55,6 @@ public class GUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         guiDaftarKompetisi = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listKompetisi = new javax.swing.JList();
         btnEditKompetisi = new javax.swing.JButton();
         btnPilihKompetisi = new javax.swing.JButton();
         btnHapusKompetisi = new javax.swing.JButton();
@@ -60,6 +62,8 @@ public class GUI extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         textDetilKompetisi = new javax.swing.JTextArea();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        listKompetisi = new javax.swing.JList();
         guiMainKompetisi = new javax.swing.JPanel();
         btnTambahPeserta = new javax.swing.JButton();
         btnKlasemen = new javax.swing.JButton();
@@ -127,14 +131,12 @@ public class GUI extends javax.swing.JFrame {
 
         getContentPane().add(guiMainMenu, "card2");
 
-        listKompetisi.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listKompetisi);
-
         btnEditKompetisi.setText("Edit");
+        btnEditKompetisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditKompetisiActionPerformed(evt);
+            }
+        });
 
         btnPilihKompetisi.setText("Pilih");
         btnPilihKompetisi.addActionListener(new java.awt.event.ActionListener() {
@@ -144,6 +146,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         btnHapusKompetisi.setText("Hapus");
+        btnHapusKompetisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusKompetisiActionPerformed(evt);
+            }
+        });
 
         btnBuatKompetisi.setText("Buat Kompetisi");
         btnBuatKompetisi.addActionListener(new java.awt.event.ActionListener() {
@@ -164,17 +171,21 @@ public class GUI extends javax.swing.JFrame {
         textDetilKompetisi.setBorder(javax.swing.BorderFactory.createTitledBorder("Detail"));
         jScrollPane2.setViewportView(textDetilKompetisi);
 
+        listKompetisi.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane6.setViewportView(listKompetisi);
+
         javax.swing.GroupLayout guiDaftarKompetisiLayout = new javax.swing.GroupLayout(guiDaftarKompetisi);
         guiDaftarKompetisi.setLayout(guiDaftarKompetisiLayout);
         guiDaftarKompetisiLayout.setHorizontalGroup(
             guiDaftarKompetisiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(guiDaftarKompetisiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnBack))
-                    .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
+                .addGroup(guiDaftarKompetisiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, guiDaftarKompetisiLayout.createSequentialGroup()
                         .addComponent(btnBuatKompetisi, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditKompetisi, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,9 +193,12 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(btnPilihKompetisi, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnHapusKompetisi, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiDaftarKompetisiLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnBack))
+                    .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
+                        .addComponent(jScrollPane6)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -193,8 +207,8 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(guiDaftarKompetisiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(guiDaftarKompetisiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(guiDaftarKompetisiLayout.createSequentialGroup()
@@ -481,6 +495,8 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout x = (CardLayout)getContentPane().getLayout();
         x.show(getContentPane(),"card3");
+        fillListKompetisi();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -531,6 +547,34 @@ public class GUI extends javax.swing.JFrame {
         fillListKompetisi();
         
     }//GEN-LAST:event_btnBuatKompetisiActionPerformed
+
+    private void btnHapusKompetisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusKompetisiActionPerformed
+        // TODO add your handling code here:
+        String x = listKompetisi.getSelectedValue().toString();
+        komp.hapusKompetisi(x);
+        fillListKompetisi();
+    }//GEN-LAST:event_btnHapusKompetisiActionPerformed
+/*public class JOptionPaneMultiInput {
+      JTextField xField = new JTextField(5);
+      JTextField yField = new JTextField(5);
+
+      JPanel myPanel = new JPanel();
+      myPanel.add(new JLabel("x:"));
+      myPanel.add(xField);
+      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+      myPanel.add(new JLabel("y:"));
+      myPanel.add(yField);
+
+      int result = JOptionPane.showConfirmDialog(null, myPanel, 
+               "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+      if (result == JOptionPane.OK_OPTION) {
+         System.out.println("x value: " + xField.getText());
+         System.out.println("y value: " + yField.getText());
+      }
+   }*/
+    private void btnEditKompetisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditKompetisiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditKompetisiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,11 +635,11 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel guiTambahPeserta;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel labelNamaPeserta;
