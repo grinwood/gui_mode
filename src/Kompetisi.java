@@ -30,6 +30,10 @@ public class Kompetisi {
      * @param max
      * @param group
      */
+    public Kompetisi(){
+        db = new database();
+        db.connect();
+    }
     public Kompetisi(String nama, int max) {
         this.nama = nama;
         maxTim = max;
@@ -99,13 +103,18 @@ public class Kompetisi {
         String query = "insert into kompetisi (namaKompetisi,maxTim) values('"+nama+"','"+maxTim+"')";
         db.execute(query);    
     }
+    public void hapusKompetisi(String nama){
+        db.connect();
+        String query = "delete from kompetisi where namaKompetisi = '"+nama+"'";
+        db.execute(query);
+    }
     public String getListKompetisi(){
         StringBuilder sb = new StringBuilder();
         try {
-            String query = "select * from kompetisi";
+            String query = "select namaKompetisi from kompetisi";
             ResultSet rs = db.getData(query);
             while(rs.next()){
-                for (int i = 1; i<=2; i++){
+                for (int i = 1; i<=1; i++){
                     sb.append(rs.getString(i));
                     sb.append(" ; ");
                 }
@@ -113,7 +122,7 @@ public class Kompetisi {
             }
             rs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Kompetisi.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Kompetisi.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sb.toString();
     }
